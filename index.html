@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz App</title>
+</head>
+
+<body>
+    <h1>TANONG KO, SAGOT MO!</h1>
+    <div id="quiz-container">
+        <div id="question-container">
+            <p id="question-text"></p>
+        </div>
+        <div id="options-container">
+            <button id="option1" onclick="checkAnswer(0)"></button>
+            <button id="option2" onclick="checkAnswer(1)"></button>
+            <button id="option3" onclick="checkAnswer(2)"></button>
+            <button id="option4" onclick="checkAnswer(3)"></button>
+        </div>
+        <div id="result-container">
+            <p id="result-text"></p>
+        </div>
+    </div>
+    <div id="score-container">
+        <p>Correct: <span id="correct-answers">0</span></p>
+        <p>Incorrect: <span id="incorrect-answers">0</span></p>
+        <p>Percentage: <span id="percentage">0%</span></p>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "San binaril si Jose Rizal",
+                options: ["Likod", "Luneta", "bagumbayan", "Tagiliran"],
+                correctAnswer: 0,
+            },
+            {
+                question: "San makikita ang ICCT",
+                options: ["CAINTA", "ANTIPOLO", "DIYAN SAMAY ANO", "SUMULONG"],
+                correctAnswer: 2,
+            },
+            {
+                question: "Taga san ako?",
+                options: ["Bahay", "Marikina", "Marikina heights", "Bahay"],
+                correctAnswer: 1,
+            },
+            {
+                question: "Sino pinaka poging prof",
+                options: ["Jasper", "Kutz", "Ebedo", "Sir Jasper"],
+                correctAnswer: 3,
+            },
+            {
+                question: "Papasa kaba this sem?",
+                options: ["OO", "Medyo", "Hindi syempre", "matik"],
+                correctAnswer: 2,
+            },
+        ];
+
+        let currentQuestion = 0;
+        let correctAnswers = 0;
+        let incorrectAnswers = 0;
+
+        function displayQuestion() {
+            const questionText = document.getElementById("question-text");
+            const optionButtons = document.querySelectorAll("#options-container button");
+            questionText.textContent = questions[currentQuestion].question;
+
+            for (let i = 0; i < optionButtons.length; i++) {
+                optionButtons[i].textContent = questions[currentQuestion].options[i];
+            }
+        }
+
+        function checkAnswer(selectedOption) {
+            const resultText = document.getElementById("result-text");
+            if (selectedOption === questions[currentQuestion].correctAnswer) {
+                correctAnswers++;
+                resultText.textContent = "GALING MONG HAYOP KA!";
+            } else {
+                incorrectAnswers++;
+                resultText.textContent = `BOBO AMPOTEK. ETO TAMA OH!: ${questions[currentQuestion].options[questions[currentQuestion].correctAnswer]}`;
+            }
+
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                displayQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        function showQuizResults() {
+            const quizContainer = document.getElementById("quiz-container");
+            const scoreContainer = document.getElementById("score-container");
+            const percentage = (correctAnswers / questions.length) * 100;
+            document.getElementById("correct-answers").textContent = correctAnswers;
+            document.getElementById("incorrect-answers").textContent = incorrectAnswers;
+            document.getElementById("percentage").textContent = percentage.toFixed(2) + "%";
+            quizContainer.style.display = "none";
+            scoreContainer.style.display = "block";
+        }
+
+        displayQuestion();
+    </script>
+</body>
+</html>
